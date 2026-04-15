@@ -40,7 +40,7 @@
         }
 
         .reg-form { background: #fdf2e9; padding: 20px; border-radius: 15px; margin-top: 20px; border: 1px dashed #ff4d00; }
-        .reg-form input { width: 100%; padding: 10px; margin: 8px 0; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box; }
+        .reg-form input, .reg-form select { width: 100%; padding: 10px; margin: 8px 0; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box; font-family: inherit; }
 
         .btn {
             background: #d32f2f; color: white; padding: 12px 30px; border-radius: 25px;
@@ -75,7 +75,16 @@
         <div class="reg-form">
             <h3 style="margin-top:0; color:#d32f2f;">📝 ලියාපදිංචි වන්න</h3>
             <input type="text" id="name" placeholder="ඔබේ නම">
-            <input type="text" id="class" placeholder="පන්තිය">
+            
+            <select id="class">
+                <option value="" disabled selected>පන්තිය තෝරන්න</option>
+                <option value="11-A">11-A</option>
+                <option value="11-B">11-B</option>
+                <option value="11-C">11-C</option>
+                <option value="11-D">11-D</option>
+                <option value="11-E">11-E</option>
+            </select>
+
             <input type="tel" id="phone" placeholder="දුරකථන අංකය">
             <button class="btn" id="submitBtn" onclick="saveData()">දත්ත ඇතුළත් කරන්න</button>
         </div>
@@ -111,12 +120,11 @@
             btn.innerHTML = "මොහොතක් රැඳී සිටින්න...";
             btn.disabled = true;
 
-            // පියවර: ඔයාට ලැබුණු Google Web App URL එක මෙතනට පේස්ට් කරන්න
             const scriptURL = 'https://script.google.com/macros/s/AKfycbwf1YBxwQdU_f08CFDCio5AWIAEokAh0NLsFuuQ5SSumS9Y-ZrhePOsCz8uXjKNlwQueQ/exec';
 
             fetch(scriptURL, {
                 method: 'POST',
-                mode: 'no-cors', // Google Apps Script එකට වැදගත්
+                mode: 'no-cors',
                 cache: 'no-cache',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ "name": name, "class": uClass, "phone": phone })
