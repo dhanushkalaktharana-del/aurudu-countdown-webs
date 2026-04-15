@@ -3,274 +3,218 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grade 11 iOS 26 Premium Edition</title>
-    <script src="https://unpkg.com/@lottiefiles/lottie-player@1.5.7/dist/lottie-player.js"></script>
+    <title>Grade 11 iOS 26 Mirror Concept</title>
     
     <style>
         :root {
-            --ios-blue: #007aff;
-            --ios-red: #ff3b30;
-            --glass-bg: rgba(255, 255, 255, 0.5); 
+            --mirror-bg: rgba(255, 255, 255, 0.4); 
             --glass-border: rgba(255, 255, 255, 0.7);
-            --mirror: blur(40px) saturate(210%);
+            --mirror-gradient: linear-gradient(135deg, #ff0080, #7928ca, #ff0080, #0070f3);
+            --hover-bg: rgba(255, 255, 255, 0.55);
         }
 
         body {
             margin: 0; padding: 0; background: #000;
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", sans-serif;
-            color: #1d1d1f; overflow-x: hidden; min-height: 100vh;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+            overflow-x: hidden; min-height: 100vh;
         }
 
-        /* --- 1. කැවුම් කොකිස් වැස්ස (Falling Background Rain) --- */
-        .falling-container {
+        /* iOS 26 Mesh Background */
+        .mesh-bg {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -2; pointer-events: none;
+            z-index: -2;
+            background: linear-gradient(45deg, #ff9a9e, #fad0c4, #a1c4fd, #fbc2eb);
+            background-size: 400% 400%;
+            animation: gradMove 12s ease infinite;
+            filter: blur(50px) brightness(0.95);
         }
+        @keyframes gradMove { 0% {background-position:0% 50%} 50% {background-position:100% 50%} 100% {background-position:0% 50%} }
+
+        /* Falling Items */
         .falling-item {
-            position: absolute; color: rgba(255, 255, 255, 0.7);
-            animation: fall infinite linear; font-size: 25px;
+            position: absolute; color: rgba(255, 255, 255, 0.6);
+            animation: fall infinite linear; font-size: 26px; z-index: -1;
         }
         @keyframes fall {
             0% { transform: translateY(-100px) rotate(0deg); opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 0.8; }
             100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
         }
 
-        /* iOS 26 Deep Mesh Gradient Background */
-        .mesh-bg {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -3;
-            background: 
-                radial-gradient(at 0% 0%, #ff5e62 0, transparent 45%), 
-                radial-gradient(at 50% 0%, #4facfe 0, transparent 50%), 
-                radial-gradient(at 100% 0%, #ee9ca7 0, transparent 45%),
-                radial-gradient(at 80% 90%, #a18cd1 0, transparent 50%),
-                radial-gradient(at 20% 80%, #fbc2eb 0, transparent 50%);
-            filter: blur(50px) brightness(1.1);
-        }
-
-        /* Dynamic Island */
-        .dynamic-island-container {
-            position: fixed; top: 18px; left: 50%;
-            transform: translateX(-50%); z-index: 1000;
-            display: flex; justify-content: center; width: 100%;
-        }
+        /* --- UPGRADED DYNAMIC ISLAND --- */
         .dynamic-island {
-            background: #000; color: white; padding: 12px 24px;
-            border-radius: 30px; min-width: 140px;
-            display: flex; align-items: center; justify-content: center;
-            transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
-            cursor: pointer; box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+            position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.85); color: #fff; padding: 12px 30px; 
+            border-radius: 30px; z-index: 1000; font-size: 0.9rem; font-weight: 600;
+            backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.2);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
         }
-        .island-dot { width: 8px; height: 8px; background: #ff3b30; border-radius: 50%; margin-right: 12px; animation: pulse 1.5s infinite; }
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
-
-        .container { 
-            display: flex; flex-direction: column; align-items: center; 
-            padding: 110px 20px 50px; position: relative; z-index: 10;
+        .dynamic-island:hover {
+            transform: translateX(-50%) scale(1.1);
+            background: #000; padding: 15px 45px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.4);
         }
 
-        /* The ULTRA MIRROR CARD */
+        .container { display: flex; flex-direction: column; align-items: center; padding: 120px 20px 60px; position: relative; z-index: 10; }
+
+        /* THE MAIN CARD */
         .card {
-            background: var(--glass-bg);
-            backdrop-filter: var(--mirror);
-            -webkit-backdrop-filter: var(--mirror);
-            padding: 50px 35px; border-radius: 50px;
-            box-shadow: 
-                0 40px 100px rgba(0,0,0,0.1), 
-                inset 0 0 30px rgba(255,255,255,0.4); /* Glass shine */
-            text-align: center; max-width: 480px; width: 100%;
-            border: 1.5px solid var(--glass-border);
-            animation: iosReveal 1.8s cubic-bezier(0.16, 1, 0.3, 1);
-            box-sizing: border-box; overflow: hidden;
+            background: var(--mirror-bg);
+            backdrop-filter: blur(70px) saturate(250%);
+            -webkit-backdrop-filter: blur(70px) saturate(250%);
+            padding: 55px 40px; border-radius: 60px;
+            box-shadow: 0 50px 120px rgba(0,0,0,0.1), inset 0 0 40px rgba(255,255,255,0.4);
+            text-align: center; max-width: 550px; width: 100%;
+            border: 1.8px solid var(--glass-border);
+            box-sizing: border-box;
         }
 
-        @keyframes iosReveal {
-            from { opacity: 0; transform: scale(0.9) translateY(40px); }
-            to { opacity: 1; transform: scale(1) translateY(0); }
-        }
-
-        /* --- 2. ඇනිමේටඩ් මල සහ ඩෙමෝ වීඩියෝව (Animated Icon with Demo Video fallback) --- */
-        .icon-box {
-            width: 150px; height: 150px; margin: 0 auto;
-            position: relative; margin-bottom: 15px;
+        /* --- MIRROR BOX (Sun/Moon) --- */
+        .sun-moon-box {
+            width: 180px; height: 180px; margin: 0 auto 30px;
+            border-radius: 50px; background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(30px); border: 2.5px solid #fff;
             display: flex; align-items: center; justify-content: center;
+            transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1); cursor: pointer;
         }
-        .premium-icon {
-            font-size: 85px; display: block;
-            animation: bounce 2.5s infinite ease-in-out;
-            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.1));
-        }
-        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+        .sun-moon-box:hover { transform: scale(1.1) rotate(5deg); background: var(--hover-bg); }
+        .celestial-content { font-size: 85px; }
 
-        h1 { 
-            font-weight: 800; font-size: 2.7rem; letter-spacing: -1.5px; margin: 0;
-            background: linear-gradient(180deg, #000 0%, #444 100%);
+        .mirror-text {
+            font-weight: 900; font-size: 3.2rem; letter-spacing: -2px; margin: 0;
+            background: var(--mirror-gradient); background-size: 300% 300%;
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            animation: mirrorShimmer 6s linear infinite;
         }
 
+        /* --- UPGRADED MIRROR TIMER BOX --- */
         #timer { 
-            background: rgba(255, 255, 255, 0.3);
-            padding: 22px; border-radius: 28px; 
-            font-weight: 800; font-size: 1.7rem; margin: 25px 0;
-            color: #000; border: 1px solid rgba(255,255,255,0.5);
-            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.35); padding: 25px; border-radius: 35px; 
+            font-weight: 900; font-size: 2.2rem; margin: 30px 0; 
+            border: 2px solid var(--glass-border);
+            backdrop-filter: blur(20px);
+            background-image: var(--mirror-gradient); background-size: 300% 300%;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            animation: mirrorShimmer 6s linear infinite;
+            transition: 0.5s; cursor: pointer;
         }
+        #timer:hover { transform: scale(1.05); background-color: var(--hover-bg); border-color: #fff; }
 
+        /* --- UPGRADED MIRROR DETAILS BOX --- */
         .event-details { 
-            background: rgba(255, 255, 255, 0.3); padding: 25px; 
-            border-radius: 35px; margin: 20px 0; border: 1px solid rgba(255,255,255,0.4);
-            text-align: left;
+            background: rgba(255, 255, 255, 0.3); padding: 30px; border-radius: 40px; 
+            margin: 25px 0; text-align: left; border: 2px solid var(--glass-border);
+            backdrop-filter: blur(20px); transition: 0.5s; cursor: pointer;
+        }
+        .event-details:hover { transform: scale(1.03); background: var(--hover-bg); border-color: #fff; }
+
+        @keyframes mirrorShimmer {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         .events-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        .event-item {
-            background: rgba(255, 255, 255, 0.5); padding: 10px; border-radius: 26px; 
-            border: 1px solid rgba(255,255,255,0.6); transition: 0.4s;
+        .event-item { 
+            background: rgba(255, 255, 255, 0.4); padding: 12px; border-radius: 30px; 
+            border: 1.5px solid var(--glass-border); transition: 0.4s;
         }
-        .event-item img { width: 100%; border-radius: 20px; height: 100px; object-fit: cover; }
+        .event-item:hover { transform: translateY(-5px); background: var(--hover-bg); }
+        .event-item img { width: 100%; border-radius: 22px; height: 110px; object-fit: cover; }
 
-        .reg-form input, .reg-form select { 
-            width: 100%; padding: 20px; margin: 12px 0; 
-            border-radius: 24px; border: 1.5px solid rgba(255,255,255,0.5); 
-            background: rgba(255, 255, 255, 0.4); box-sizing: border-box;
-            font-size: 1.05rem; outline: none; transition: 0.3s;
+        .form input, .form select { 
+            width: 100%; padding: 22px; margin: 15px 0; border-radius: 25px; 
+            border: 1.5px solid rgba(255,255,255,0.4); background: rgba(255, 255, 255, 0.25); 
+            box-sizing: border-box; font-size: 1.1rem; outline: none; transition: 0.3s;
         }
+        .form input:focus { background: rgba(255, 255, 255, 0.45); border-color: #fff; }
         
         .btn { 
-            background: #000; color: #fff; padding: 22px; border-radius: 24px; 
+            background: #000; color: #fff; padding: 22px; border-radius: 25px; 
             font-weight: 700; border: none; cursor: pointer; width: 100%; 
-            font-size: 1.2rem; margin-top: 15px; box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-            transition: 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+            font-size: 1.3rem; margin-top: 20px; transition: 0.4s;
         }
-        .btn:hover { background: #333; transform: translateY(-5px); box-shadow: 0 25px 50px rgba(0,0,0,0.3); }
+        .btn:hover { background: #333; transform: scale(1.02); box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
 
-        footer { margin-top: 40px; font-size: 0.9rem; color: rgba(0,0,0,0.4); font-weight: 600; }
+        footer { margin-top: 50px; font-size: 1rem; color: rgba(0,0,0,0.5); font-weight: 600; }
     </style>
 </head>
 <body>
 
     <div class="mesh-bg"></div>
-    
-    <div class="falling-container" id="falling-items"></div>
+    <div id="rain-container"></div>
 
-    <div class="dynamic-island-container">
-        <div class="dynamic-island">
-            <div class="island-content">
-                <div class="island-dot"></div>
-                <span id="island-text" style="font-size: 0.8rem; font-weight: 600;">Suriya Mangalyaya</span>
-            </div>
-        </div>
-    </div>
+    <div class="dynamic-island" id="island-text">Suriya Mangalyaya</div>
 
     <div class="container">
         <div class="card">
             
-            <div class="icon-box">
-                <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_at6m9p8b.json"  
-                    background="transparent" speed="1.2" loop autoplay 
-                    style="width: 100%; height: 100%; position: absolute;" 
-                    onerror="this.style.display='none'; document.getElementById('alt-flower').style.display='block';">
-                </lottie-player>
-                <div id="alt-flower" class="premium-icon" style="display:none; position: absolute;">🌸</div>
+            <div class="sun-moon-box">
+                <div class="celestial-content">🌞<br>🌜</div>
             </div>
 
-            <h1>සූරිය මංගල්‍යය</h1>
-            <p style="color: #444; font-weight: 700; font-size: 1.1rem; margin-top: -5px;">Grade 11 Annual Festival</p>
+            <h1 class="mirror-text">සූරිය මංගල්‍යය</h1>
+            <p style="font-weight: 700; opacity: 0.8; font-size: 1.2rem; color: #333; margin-top: 5px;">Grade 11 Annual Festival</p>
 
             <div id="timer">00d 00h 00m 00s</div>
             
             <div class="event-details">
                 <p>📅 <strong>දිනය:</strong> 2026 අප්‍රේල් 18</p>
-                <p>⏰ <strong>වේලාව:</strong> ප.ව. 2:00 සිට</p>
                 <p>📍 <strong>ස්ථානය:</strong> පාසල් ක්‍රීඩාංගණය</p>
             </div>
 
             <div class="events-grid">
                 <div class="event-item">
-                    <img src="https://www.lanka.com/wp-content/uploads/2014/04/avurudu-games-1.jpg" alt="Games">
-                    <p style="font-weight: 700; font-size: 0.9rem; margin-top: 5px;">පැණි බඹරේ</p>
+                    <img src="https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?auto=format&fit=crop&w=300" alt="Games">
+                    <p style="font-weight: 700; font-size: 0.95rem; margin-top: 8px;">පැණි බඹරේ</p>
                 </div>
                 <div class="event-item">
-                    <img src="https://i0.wp.com/island.lk/wp-content/uploads/2021/04/tug-of-war.jpg" alt="Tug of War">
-                    <p style="font-weight: 700; font-size: 0.9rem; margin-top: 5px;">කඹ ඇදීම</p>
+                    <img src="https://images.unsplash.com/photo-1517457373958-b7bdd4587205?auto=format&fit=crop&w=300" alt="Tug of War">
+                    <p style="font-weight: 700; font-size: 0.95rem; margin-top: 8px;">කඹ ඇදීම</p>
                 </div>
             </div>
 
-            <div class="reg-form">
+            <div class="form">
                 <input type="text" id="name" placeholder="ඔබේ නම">
                 <select id="class">
                     <option value="" disabled selected>පන්තිය තෝරන්න</option>
                     <option>11-A</option><option>11-B</option><option>11-C</option><option>11-D</option>
                 </select>
                 <input type="tel" id="phone" placeholder="දුරකථන අංකය">
-                <button class="btn" id="submitBtn" onclick="saveData()">Register Now</button>
+                <button class="btn">Register Now</button>
             </div>
             
-            <footer>Designed by Dhanushka Laktharana | Dhanu Editz</footer>
+            <footer>Dhanushka Laktharana | Dhanu Editz</footer>
         </div>
     </div>
 
     <script>
-        // --- 1. කැවුම් කොකිස් වැස්ස ක්‍රියාත්මක කිරීම (Create Kavili Rain) ---
-        function createFallingItems() {
-            const container = document.getElementById('falling-items');
-            // කැවුම්, කොකිස් සහ මල්වල අයිකන් (Icons)
-            const kaviliOptions = ['🌸', '✨', '🍪', '🥥', '🎊'];
-            
-            for (let i = 0; i < 35; i++) {
-                const item = document.createElement('div');
-                item.className = 'falling-item';
-                // අයිකන් එකක් අහඹු ලෙස තෝරාගැනීම
-                item.innerHTML = kaviliOptions[Math.floor(Math.random() * kaviliOptions.length)];
-                
-                // අහඹු වේගයන් සහ ස්ථාන
-                item.style.left = Math.random() * 100 + 'vw';
-                item.style.animationDuration = (Math.random() * 8 + 5) + 's'; // 5s to 13s
-                item.style.animationDelay = Math.random() * 8 + 's';
-                item.style.fontSize = (Math.random() * 15 + 15) + 'px'; // 15px to 30px
-                
-                container.appendChild(item);
-            }
+        const rain = document.getElementById('rain-container');
+        const symbols = ['🌞', '🌙', '🌸', '🍪', '✨'];
+        for (let i = 0; i < 40; i++) {
+            const el = document.createElement('div');
+            el.className = 'falling-item';
+            el.innerHTML = symbols[Math.floor(Math.random() * symbols.length)];
+            el.style.left = Math.random() * 100 + 'vw';
+            el.style.animationDuration = (Math.random() * 8 + 6) + 's';
+            el.style.animationDelay = Math.random() * 6 + 's';
+            rain.appendChild(el);
         }
-        createFallingItems();
 
-        // Timer Logic
         const targetDate = new Date(2026, 3, 18, 14, 0, 0).getTime();
         setInterval(function() {
             const now = new Date().getTime();
             const diff = targetDate - now;
-            if (diff < 0) {
-                document.getElementById("timer").innerHTML = "Event Started! 🌸";
-                return;
-            }
+            if (diff < 0) { document.getElementById("timer").innerHTML = "සුබ අලුත් අවුරුද්දක් වේවා! 🌸"; return; }
             const d = Math.floor(diff / (1000 * 60 * 60 * 24));
             const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
             const s = Math.floor((diff % (1000 * 60)) / 1000);
-            
             const res = `${d}d ${h}h ${m}m ${s}s`;
             document.getElementById("timer").innerHTML = res;
-            document.getElementById("island-text").innerHTML = "Ends in: " + res;
+            document.getElementById("island-text").innerHTML = "Starts in: " + res;
         }, 1000);
-
-        function saveData() {
-            const name = document.getElementById('name').value;
-            const uClass = document.getElementById('class').value;
-            const phone = document.getElementById('phone').value;
-            const btn = document.getElementById('submitBtn');
-            if (!name || !uClass || !phone) { alert("Please fill all details!"); return; }
-            btn.innerHTML = "Processing..."; btn.disabled = true;
-            const scriptURL = 'https://script.google.com/macros/s/AKfycbxfv5dZ9LUZrxdnWEUG5G6hM2s6l7DrsDRjUcaIMFd-zhRXSJNxGdYN6z3pp4Gr84lXRg/exec';
-            fetch(scriptURL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ "name": name, "class": uClass, "phone": phone }) })
-            .then(() => {
-                alert("සාර්ථකයි! අවුරුදු උත්සවයේදී හමුවෙමු.");
-                document.getElementById('name').value = ""; document.getElementById('class').value = ""; document.getElementById('phone').value = "";
-                btn.innerHTML = "Register Now"; btn.disabled = false;
-            })
-            .catch(() => { alert('Error submissions data.'); btn.disabled = false; });
-        }
     </script>
 </body>
 </html>
