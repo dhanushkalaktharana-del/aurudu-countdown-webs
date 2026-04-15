@@ -6,11 +6,11 @@
     <title>Grade 11 Aurudu Party</title>
     <style>
         body {
-            margin: 0; padding: 0; display: flex; justify-content: center; align-items: center;
-            min-height: 100vh; background: linear-gradient(135deg, #ff9a00, #ff4d00);
+            margin: 0; padding: 0; background: linear-gradient(135deg, #ff9a00, #ff4d00);
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #333; overflow-x: hidden;
         }
 
+        /* Flower Animation */
         .flower {
             position: fixed; top: -10%; color: #fff; font-size: 25px; z-index: 5;
             user-select: none; cursor: default; animation: fall linear infinite;
@@ -20,102 +20,113 @@
             100% { transform: translateY(110vh) rotate(360deg); opacity: 0.5; }
         }
 
+        .container { display: flex; flex-direction: column; align-items: center; padding: 20px; }
+
         .card {
-            background: rgba(255, 255, 255, 0.95); padding: 35px; border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.3); text-align: center; max-width: 480px;
-            width: 90%; border: 5px solid #fff; position: relative; z-index: 10;
-            animation: fadeIn 1.5s ease-in-out; margin: 20px 0;
+            background: rgba(255, 255, 255, 0.95); padding: 30px; border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3); text-align: center; max-width: 500px;
+            width: 100%; border: 5px solid #fff; margin-bottom: 30px; animation: fadeIn 1s ease-in-out;
         }
 
-        #timer {
-            background: #d32f2f; color: white; padding: 10px; border-radius: 10px;
-            font-weight: bold; font-size: 1.1rem; margin: 15px 0;
+        /* Events Section */
+        .events-grid {
+            display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-top: 20px;
         }
-
-        h1 { color: #d32f2f; font-size: 2.3rem; margin-bottom: 10px; }
-
-        .event-details {
-            background: #fff3e0; padding: 15px; border-radius: 15px; margin: 15px 0;
-            border-left: 5px solid #ff4d00; text-align: left;
+        .event-item {
+            background: #fff; padding: 10px; border-radius: 15px; border: 2px solid #ff4d00;
+            transition: transform 0.3s;
         }
+        .event-item:hover { transform: scale(1.05); background: #fff3e0; }
+        .event-item img { width: 100%; border-radius: 10px; height: 100px; object-fit: cover; }
+        .event-item p { font-weight: bold; margin: 10px 0 0 0; color: #d32f2f; font-size: 0.9rem; }
 
-        .reg-form { background: #fdf2e9; padding: 20px; border-radius: 15px; margin-top: 20px; border: 1px dashed #ff4d00; }
-        .reg-form input, .reg-form select { width: 100%; padding: 10px; margin: 8px 0; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box; font-family: inherit; }
+        #timer { background: #d32f2f; color: white; padding: 10px; border-radius: 10px; font-weight: bold; margin: 15px 0; }
+        .event-details { background: #fff3e0; padding: 15px; border-radius: 15px; margin: 15px 0; border-left: 5px solid #ff4d00; text-align: left; }
+        .reg-form { background: #fdf2e9; padding: 20px; border-radius: 15px; border: 1px dashed #ff4d00; }
+        .reg-form input, .reg-form select { width: 100%; padding: 10px; margin: 8px 0; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box; }
+        
+        .btn { background: #d32f2f; color: white; padding: 12px 30px; border-radius: 25px; font-weight: bold; border: none; cursor: pointer; width: 100%; transition: 0.3s; }
+        .btn:hover { background: #b71c1c; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
 
-        .btn {
-            background: #d32f2f; color: white; padding: 12px 30px; border-radius: 25px;
-            font-weight: bold; border: none; cursor: pointer; width: 100%; transition: 0.3s;
-        }
-        .btn:hover { transform: scale(1.02); background: #b71c1c; }
-        .btn:disabled { background: #888; cursor: not-allowed; }
-
-        .location-link { display: inline-block; margin-top: 15px; color: #d32f2f; text-decoration: none; font-weight: bold; }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
     <span class="flower" style="left:10%; animation-duration:8s;">🌸</span>
-    <span class="flower" style="left:40%; animation-duration:12s;">🌸</span>
-    <span class="flower" style="left:70%; animation-duration:10s;">🌸</span>
+    <span class="flower" style="left:30%; animation-duration:12s;">🌼</span>
+    <span class="flower" style="left:55%; animation-duration:10s;">🌸</span>
+    <span class="flower" style="left:80%; animation-duration:15s;">🌼</span>
 
-    <div class="card">
-        <h1>🌸 සූරිය මංගල්‍යය 🌸</h1>
-        <p>අපේ පන්තියේ <strong>අවුරුදු උත්සවය</strong> සඳහා ඔබට ආරාධනා!</p>
+    <div class="container">
+        <div class="card">
+            <h1>🌸 සූරිය මංගල්‍යය 🌸</h1>
+            <p>11 වසරේ අපේ <strong>අවුරුදු උත්සවය</strong></p>
 
-        <div id="timer">Countdown පූරණය වේ...</div>
-        
-        <div class="event-details">
-            <p>📅 <strong>දිනය:</strong> 2026 අප්‍රේල් 18</p>
-            <p>⏰ <strong>වේලාව:</strong> ප.ව. 2:00 සිට</p>
-            <p>📍 <strong>ස්ථානය:</strong> පාසල් ක්‍රීඩාංගණය</p>
-        </div>
-
-        <div class="reg-form">
-            <h3 style="margin-top:0; color:#d32f2f;">📝 ලියාපදිංචි වන්න</h3>
-            <input type="text" id="name" placeholder="ඔබේ නම">
+            <div id="timer">Countdown පූරණය වේ...</div>
             
-            <select id="class">
-                <option value="" disabled selected>පන්තිය තෝරන්න</option>
-                <option value="11-A">11-A</option>
-                <option value="11-B">11-B</option>
-                <option value="11-C">11-C</option>
-                <option value="11-D">11-D</option>
-                <option value="11-E">11-E</option>
-            </select>
+            <div class="event-details">
+                <p>📅 <strong>දිනය:</strong> 2026 අප්‍රේල් 18</p>
+                <p>⏰ <strong>වේලාව:</strong> ප.ව. 2:00 සිට</p>
+                <p>📍 <strong>ස්ථානය:</strong> පාසල් ක්‍රීඩාංගණය</p>
+            </div>
 
-            <input type="tel" id="phone" placeholder="දුරකථන අංකය">
-            <button class="btn" id="submitBtn" onclick="saveData()">දත්ත ඇතුළත් කරන්න</button>
+            <h3 style="color:#ff4d00; margin-top:25px;">🎪 විශේෂ අවුරුදු සෙල්ලම්</h3>
+            <div class="events-grid">
+                <div class="event-item">
+                    <img src="https://images.unsplash.com/photo-1543007630-9710e4a00a20?auto=format&fit=crop&w=200&q=80" alt="පැණි බඹරේ">
+                    <p>පැණි බඹරේ</p>
+                </div>
+                <div class="event-item">
+                    <img src="https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?auto=format&fit=crop&w=200&q=80" alt="කඹ ඇදීම">
+                    <p>කඹ ඇදීම</p>
+                </div>
+                <div class="event-item">
+                    <img src="https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?auto=format&fit=crop&w=200&q=80" alt="කිරි කැවීම">
+                    <p>කිරි කැවීම</p>
+                </div>
+                <div class="event-item">
+                    <img src="https://images.unsplash.com/photo-1511270111405-562286a63597?auto=format&fit=crop&w=200&q=80" alt="කොට්ටපොර">
+                    <p>කොට්ටපොර</p>
+                </div>
+            </div>
+
+            <div class="reg-form" style="margin-top: 30px;">
+                <h3 style="margin-top:0; color:#d32f2f;">📝 ලියාපදිංචි වන්න</h3>
+                <input type="text" id="name" placeholder="ඔබේ නම">
+                <select id="class">
+                    <option value="" disabled selected>පන්තිය තෝරන්න</option>
+                    <option value="11-A">11-A</option>
+                    <option value="11-B">11-B</option>
+                    <option value="11-C">11-C</option>
+                    <option value="11-D">11-D</option>
+                    <option value="11-E">11-E</option>
+                </select>
+                <input type="tel" id="phone" placeholder="දුරකථන අංකය">
+                <button class="btn" id="submitBtn" onclick="saveData()">දත්ත ඇතුළත් කරන්න</button>
+            </div>
         </div>
-
-        <a href="https://maps.app.goo.gl/ACtY1qdHs58LJc8C9" target="_blank" class="location-link">📍 Location බලන්න</a>
     </div>
 
     <script>
-        // 1. COUNTDOWN TIMER (අප්‍රේල් 18, ප.ව. 2:00 ට සකස් කරන ලදී)
-        // JavaScript වල මාසය පටන් ගන්නේ 0 න් (0=Jan, 1=Feb, 2=Mar, 3=April)
+        // Countdown
         const targetDate = new Date(2026, 3, 18, 14, 0, 0).getTime();
-        
         const timerFunction = setInterval(function() {
             const now = new Date().getTime();
             const diff = targetDate - now;
-
             if (diff < 0) {
                 clearInterval(timerFunction);
                 document.getElementById("timer").innerHTML = "අවුරුදු උත්සවය ආරම්භ වී ඇත! 🌸";
                 return;
             }
-
             const d = Math.floor(diff / (1000 * 60 * 60 * 24));
             const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
             const s = Math.floor((diff % (1000 * 60)) / 1000);
-            
             document.getElementById("timer").innerHTML = `තව දින ${d} පැය ${h} මිනි ${m} තත් ${s} යි`;
         }, 1000);
 
-        // 2. GOOGLE SHEETS SAVE LOGIC
+        // Save Data
         function saveData() {
             const name = document.getElementById('name').value;
             const uClass = document.getElementById('class').value;
@@ -139,7 +150,7 @@
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ "name": name, "class": uClass, "phone": phone })
             })
-            .then(response => {
+            .then(() => {
                 alert("නියමයි! ඔයා සාර්ථකව ලියාපදිංචි වුණා.");
                 document.getElementById('name').value = "";
                 document.getElementById('class').value = "";
@@ -147,9 +158,8 @@
                 btn.innerHTML = "දත්ත ඇතුළත් කරන්න";
                 btn.disabled = false;
             })
-            .catch(error => {
-                alert('පොඩි වැරදීමක් වුණා. ආයේ උත්සාහ කරන්න.');
-                btn.innerHTML = "දත්ත ඇතුළත් කරන්න";
+            .catch(() => {
+                alert('පොඩි වැරදීමක් වුණා.');
                 btn.disabled = false;
             });
         }
