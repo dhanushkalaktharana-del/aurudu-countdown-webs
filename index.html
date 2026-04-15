@@ -3,16 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aurudu Invitation - Grade 11</title>
+    <title>Grade 11 Aurudu Party</title>
     <style>
-        /* --- CSS (Lassana karanna) --- */
         body {
             margin: 0; padding: 0; display: flex; justify-content: center; align-items: center;
             min-height: 100vh; background: linear-gradient(135deg, #ff9a00, #ff4d00);
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #333; overflow-x: hidden;
         }
 
-        /* Falling Flowers */
         .flower {
             position: fixed; top: -10%; color: #fff; font-size: 25px; z-index: 5;
             user-select: none; cursor: default; animation: fall linear infinite;
@@ -22,7 +20,6 @@
             100% { transform: translateY(110vh) rotate(360deg); opacity: 0.5; }
         }
 
-        /* Card Container */
         .card {
             background: rgba(255, 255, 255, 0.95); padding: 35px; border-radius: 20px;
             box-shadow: 0 15px 35px rgba(0,0,0,0.3); text-align: center; max-width: 480px;
@@ -42,7 +39,6 @@
             border-left: 5px solid #ff4d00; text-align: left;
         }
 
-        /* Form */
         .reg-form { background: #fdf2e9; padding: 20px; border-radius: 15px; margin-top: 20px; border: 1px dashed #ff4d00; }
         .reg-form input { width: 100%; padding: 10px; margin: 8px 0; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box; }
 
@@ -51,7 +47,8 @@
             font-weight: bold; border: none; cursor: pointer; width: 100%; transition: 0.3s;
         }
         .btn:hover { transform: scale(1.02); background: #b71c1c; }
-        
+        .btn:disabled { background: #888; cursor: not-allowed; }
+
         .location-link { display: inline-block; margin-top: 15px; color: #d32f2f; text-decoration: none; font-weight: bold; }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
@@ -60,15 +57,14 @@
 <body>
 
     <span class="flower" style="left:10%; animation-duration:8s;">🌸</span>
-    <span class="flower" style="left:30%; animation-duration:12s;">🌸</span>
-    <span class="flower" style="left:55%; animation-duration:10s;">🌸</span>
-    <span class="flower" style="left:80%; animation-duration:15s;">🌸</span>
+    <span class="flower" style="left:40%; animation-duration:12s;">🌸</span>
+    <span class="flower" style="left:70%; animation-duration:10s;">🌸</span>
 
     <div class="card">
         <h1>🌸 සූරිය මංගල්‍යය 🌸</h1>
         <p>අපේ පන්තියේ <strong>අවුරුදු උත්සවය</strong> සඳහා ඔබට ආරාධනා!</p>
 
-        <div id="timer">Countdown loading...</div>
+        <div id="timer">Countdown පූරණය වේ...</div>
         
         <div class="event-details">
             <p>📅 <strong>දිනය:</strong> 2026 අප්‍රේල් 20</p>
@@ -81,17 +77,15 @@
             <input type="text" id="name" placeholder="ඔබේ නම">
             <input type="text" id="class" placeholder="පන්තිය">
             <input type="tel" id="phone" placeholder="දුරකථන අංකය">
-            <button class="btn" onclick="sendToWhatsApp()">WhatsApp හරහා ලියාපදිංචි වන්න</button>
+            <button class="btn" id="submitBtn" onclick="saveData()">දත්ත ඇතුළත් කරන්න</button>
         </div>
 
-        <a href="https://maps.app.goo.gl/vL3eKn7zsqZN19fj8" target="_blank" class="location-link">📍 Location බලන්න</a>
+        <a href="https://maps.app.goo.gl/ACtY1qdHs58LJc8C9" target="_blank" class="location-link">📍 Location බලන්න</a>
     </div>
 
     <script>
-        // 1. COUNTDOWN LOGIC
-        // Date eka wenas karanna: (Year, Month, Day, Hour, Minute) - Month eka April nam 3 danna (0=Jan)
-        const targetDate = new Date(2026, 3, 18, 14, 0, 0).getTime();
-
+        // 1. COUNTDOWN TIMER
+        const targetDate = new Date(2026, 3, 20, 8, 0, 0).getTime();
         setInterval(function() {
             const now = new Date().getTime();
             const diff = targetDate - now;
@@ -99,31 +93,47 @@
             const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
             const s = Math.floor((diff % (1000 * 60)) / 1000);
-            
             document.getElementById("timer").innerHTML = `තව දින ${d} පැය ${h} මිනි ${m} තත් ${s} යි`;
-            if (diff < 0) { document.getElementById("timer").innerHTML = "අද තමයි දවස! 🌸"; }
         }, 1000);
 
-        // 2. WHATSAPP REGISTRATION LOGIC
-        function sendToWhatsApp() {
+        // 2. GOOGLE SHEETS SAVE LOGIC
+        function saveData() {
             const name = document.getElementById('name').value;
             const uClass = document.getElementById('class').value;
             const phone = document.getElementById('phone').value;
-            
-            // OYAGE NUMBER EKA METHANATA DANNA (94 ekka)
-            const myNumber = "94778340916"; 
+            const btn = document.getElementById('submitBtn');
 
             if (name === "" || uClass === "" || phone === "") {
                 alert("කරුණාකර සියලු විස්තර පුරවන්න!");
                 return;
             }
 
-            const msg = `*අවුරුදු උත්සවය ලියාපදිංචිය*%0A%0A` + 
-                        `නම: ${name}%0A` + 
-                        `පන්තිය: ${uClass}%0A` + 
-                        `දුරකථනය: ${phone}`;
-            
-            window.open(`https://wa.me/${myNumber}?text=${msg}`, '_blank');
+            btn.innerHTML = "මොහොතක් රැඳී සිටින්න...";
+            btn.disabled = true;
+
+            // පියවර: ඔයාට ලැබුණු Google Web App URL එක මෙතනට පේස්ට් කරන්න
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbwf1YBxwQdU_f08CFDCio5AWIAEokAh0NLsFuuQ5SSumS9Y-ZrhePOsCz8uXjKNlwQueQ/exec';
+
+            fetch(scriptURL, {
+                method: 'POST',
+                mode: 'no-cors', // Google Apps Script එකට වැදගත්
+                cache: 'no-cache',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ "name": name, "class": uClass, "phone": phone })
+            })
+            .then(response => {
+                alert("නියමයි! ඔයා සාර්ථකව ලියාපදිංචි වුණා.");
+                document.getElementById('name').value = "";
+                document.getElementById('class').value = "";
+                document.getElementById('phone').value = "";
+                btn.innerHTML = "දත්ත ඇතුළත් කරන්න";
+                btn.disabled = false;
+            })
+            .catch(error => {
+                alert('පොඩි වැරදීමක් වුණා. ආයේ උත්සාහ කරන්න.');
+                btn.innerHTML = "දත්ත ඇතුළත් කරන්න";
+                btn.disabled = false;
+            });
         }
     </script>
 </body>
