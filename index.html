@@ -68,7 +68,7 @@
         
         <div class="event-details">
             <p>📅 <strong>දිනය:</strong> 2026 අප්‍රේල් 18</p>
-            <p>⏰ <strong>වේලාව:</strong> ප.ව. 14:00 සිට</p>
+            <p>⏰ <strong>වේලාව:</strong> ප.ව. 2:00 සිට</p>
             <p>📍 <strong>ස්ථානය:</strong> පාසල් ක්‍රීඩාංගණය</p>
         </div>
 
@@ -93,15 +93,25 @@
     </div>
 
     <script>
-        // 1. COUNTDOWN TIMER
-        const targetDate = new Date(2026, 3, 20, 8, 0, 0).getTime();
-        setInterval(function() {
+        // 1. COUNTDOWN TIMER (අප්‍රේල් 18, ප.ව. 2:00 ට සකස් කරන ලදී)
+        // JavaScript වල මාසය පටන් ගන්නේ 0 න් (0=Jan, 1=Feb, 2=Mar, 3=April)
+        const targetDate = new Date(2026, 3, 18, 14, 0, 0).getTime();
+        
+        const timerFunction = setInterval(function() {
             const now = new Date().getTime();
             const diff = targetDate - now;
+
+            if (diff < 0) {
+                clearInterval(timerFunction);
+                document.getElementById("timer").innerHTML = "අවුරුදු උත්සවය ආරම්භ වී ඇත! 🌸";
+                return;
+            }
+
             const d = Math.floor(diff / (1000 * 60 * 60 * 24));
             const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
             const s = Math.floor((diff % (1000 * 60)) / 1000);
+            
             document.getElementById("timer").innerHTML = `තව දින ${d} පැය ${h} මිනි ${m} තත් ${s} යි`;
         }, 1000);
 
