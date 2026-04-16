@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grade 11 Aurudu - Registration with Time</title>
+    <title>Grade 11 Aurudu - All Features Pro</title>
     <style>
         :root {
             --nature-gradient: linear-gradient(135deg, #a8e063, #56ab2f, #00d2ff, #fbc2eb);
@@ -21,6 +21,7 @@
         .container { width: 100%; max-width: 450px; padding: 40px 15px; text-align: center; position: relative; }
         .card { background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(50px); padding: 30px 20px; border-radius: 40px; border: 1.5px solid rgba(255,255,255,0.4); box-shadow: 0 30px 60px rgba(0,0,0,0.3); position: relative; }
 
+        /* Sun and Moon */
         .sun { position: absolute; top: 15px; left: 10px; font-size: 45px; filter: drop-shadow(0 0 10px gold); animation: float 4s infinite alternate; }
         .moon { position: absolute; top: 15px; right: 10px; font-size: 45px; filter: drop-shadow(0 0 10px #fff); animation: float 4s infinite alternate-reverse; }
         @keyframes float { from { transform: translateY(0); } to { transform: translateY(-10px); } }
@@ -28,8 +29,8 @@
         h1 { background: var(--diamond-mirror); background-size: 300%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: mirror 5s infinite; font-weight: 800; font-size: 2.2rem; margin: 10px 0; }
         @keyframes mirror { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
 
+        /* Interactive Boxes */
         .simple-box, .timer-box { border-radius: 20px; margin: 15px 0; padding: 18px; background: rgba(255,255,255,0.18); border: 1px solid rgba(255,255,255,0.3); text-align: left; font-size: 0.9rem; backdrop-filter: blur(10px); transition: var(--transition-time); cursor: pointer; }
-        
         .timer-box:hover { transform: scale(1.05); background-color: var(--interact-one); }
         .info-box:hover { transform: scale(1.05); background-color: var(--interact-two); }
         .games-box:hover { transform: scale(1.05); background-color: var(--interact-three); }
@@ -44,21 +45,24 @@
         li { list-style: none; padding: 6px 0; display: flex; align-items: center; border-bottom: 0.5px solid rgba(255,255,255,0.1); }
         li::before { content: "✨"; margin-right: 12px; font-size: 0.8rem; }
 
+        /* Location Button */
         .info-box { background: rgba(255, 255, 255, 0.25); border: 1.5px solid #fff; text-align: center; font-weight: 700; }
-        .loc-btn { display: inline-block; width: 100%; padding: 12px; margin-top: 15px; background: rgba(255,255,255,0.2); border: 1px solid #fff; color: #fff; text-decoration: none; border-radius: 15px; font-weight: 700; font-size: 1rem; text-align: center; box-sizing: border-box; transition: 0.3s; }
+        .loc-btn { display: inline-block; width: 100%; padding: 12px; margin-top: 15px; background: rgba(255,255,255,0.2); border: 1px solid #fff; color: #fff; text-decoration: none; border-radius: 15px; font-weight: 700; font-size: 1rem; text-align: center; transition: 0.3s; box-sizing: border-box; }
+        .loc-btn:hover { background: #fff; color: #000; }
 
+        /* More Info Accordion */
         .details-content { display: none; margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.2); animation: fadeIn 0.4s; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        input, select { width: 100%; padding: 15px; margin: 8px 0; border-radius: 15px; border: 1px solid #fff; background: rgba(255,255,255,0.2); color: #fff; outline: none; box-sizing: border-box; transition: var(--transition-time); font-weight: 600; }
+        /* Form Controls */
+        input, select { width: 100%; padding: 15px; margin: 8px 0; border-radius: 15px; border: 1px solid #fff; background: rgba(255,255,255,0.2); color: #fff; outline: none; box-sizing: border-box; font-weight: 600; transition: var(--transition-time); }
         input:focus { background-color: var(--interact-two); transform: scale(1.02); }
-        
         .btn { background: var(--diamond-mirror); background-size: 300%; padding: 18px; border-radius: 20px; width: 100%; border: none; color: #fff; font-weight: 800; font-size: 1.2rem; cursor: pointer; margin-top: 10px; animation: mirror 5s infinite; transition: var(--transition-time); }
         .btn:hover { transform: scale(1.05); }
 
-        /* Success Message Styling */
+        /* Success Message */
         #success { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #fff; color: #000; padding: 30px; border-radius: 30px; z-index: 100; text-align: center; box-shadow: 0 0 100px rgba(0,0,0,0.8); width: 85%; max-width: 350px; border: 2.5px solid #56ab2f; }
-        .reg-time { margin-top: 15px; padding: 10px; background: #f0f0f0; border-radius: 10px; font-size: 0.9rem; font-weight: 700; color: #333; }
+        .reg-time { margin-top: 15px; padding: 10px; background: #f0f0f0; border-radius: 10px; font-size: 0.85rem; font-weight: 700; }
 
         footer { margin-top: 20px; font-size: 0.7rem; opacity: 0.8; font-weight: 600; }
     </style>
@@ -82,7 +86,7 @@
                 📅 2026 අප්‍රේල් 18 <br> 
                 ⏰ හවස 2:00 සිට <br>
                 📍 Gonagolla Public Ground <br>
-                <a href="https://maps.app.goo.gl/9" target="_blank" class="loc-btn">📍 Find the Location</a>
+                <a href="https://maps.app.goo.gl/x6ET7qAKFqQhpE9R9" target="_blank" class="loc-btn">📍 Location</a>
             </div>
 
             <b class="box-title">🏆 පවත්වනු ලබන තරඟ</b>
@@ -121,12 +125,13 @@
 
     <div id="success">
         <h2 style="color: #56ab2f; margin: 0;">සාර්ථකයි! 🎉</h2>
-        <p style="font-weight: 600; margin-bottom: 5px;">ඔබේ දත්ත ඇතුළත් කරගත්තා.</p>
+        <p>ඔබේ දත්ත සාර්ථකව Sheet එකට එකතු කළා.</p>
         <div class="reg-time" id="display-time"></div>
         <button onclick="document.getElementById('success').style.display='none'" class="btn" style="padding:10px; font-size: 1rem; margin-top: 15px;">හරි</button>
     </div>
 
     <script>
+        // Toggle More Info
         function toggleDetails() {
             const content = document.getElementById('details');
             const label = document.getElementById('box-label');
@@ -139,6 +144,7 @@
             }
         }
 
+        // Countdown Timer
         const targetDate = new Date(2026, 3, 18, 14, 0, 0).getTime();
         setInterval(() => {
             const now = new Date().getTime();
@@ -150,23 +156,28 @@
             document.getElementById("s").innerHTML = Math.floor((dist % 60000) / 1000).toString().padStart(2, '0');
         }, 1000);
 
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbw-YyiKdoNbGder9sBiCpL74xydDl6fDrljjKmiIEKBRj6dRW3Kgej48awxRb75ozeviA/exec';
+        // Google Sheet Linking Logic
+        // මෙතනට ඔයාගේ Google Script Deployment URL එක දාන්න මචං
+        const scriptURL = 'YOUR_GOOGLE_SCRIPT_URL_HERE';
         const form = document.getElementById('regForm');
         
         form.addEventListener('submit', e => {
             e.preventDefault();
-            document.getElementById('subBtn').innerHTML = "පොඩ්ඩක් ඉන්න...";
+            document.getElementById('subBtn').innerHTML = "මොහොතක් රැඳෙන්න...";
             
-            // Get current time
             const now = new Date();
-            const timeString = "ලියාපදිංචි වූ වේලාව: " + now.toLocaleDateString() + " | " + now.toLocaleTimeString();
+            const timeStr = "සටහන් වූ වේලාව: " + now.toLocaleString();
 
             fetch(scriptURL, { method: 'POST', body: new FormData(form)})
             .then(() => {
-                document.getElementById('display-time').innerHTML = timeString;
+                document.getElementById('display-time').innerHTML = timeStr;
                 document.getElementById('success').style.display = 'block';
                 document.getElementById('subBtn').innerHTML = "Register Now";
                 form.reset();
+            })
+            .catch(error => {
+                alert('Error! Please check your Script URL.');
+                document.getElementById('subBtn').innerHTML = "Register Now";
             });
         });
     </script>
