@@ -3,181 +3,236 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grade 11 Aurudu - All Features Pro</title>
+    <title>Grade 11 Aurudu 2026 - Final Fix</title>
     <style>
         :root {
-            --nature-gradient: linear-gradient(135deg, #a8e063, #56ab2f, #00d2ff, #fbc2eb);
-            --diamond-mirror: linear-gradient(135deg, #00d2ff, #ff0080, #f1c40f, #7928ca, #00d2ff);
-            --interact-one: rgba(241, 196, 15, 0.4);
-            --interact-two: rgba(0, 210, 255, 0.4);
-            --interact-three: rgba(121, 40, 202, 0.4);
-            --transition-time: 0.4s ease-in-out;
+            --nature-gradient: linear-gradient(135deg, #1e3c72, #2a5298, #2ecc71, #f1c40f);
+            --diamond-mirror: linear-gradient(135deg, #00d2ff, #ff0080, #f1c40f, #7928ca);
+            --glass: rgba(255, 255, 255, 0.12);
         }
 
-        body { margin: 0; background: #000; font-family: -apple-system, sans-serif; display: flex; justify-content: center; min-height: 100vh; overflow-x: hidden; color: #fff; }
-        .mesh-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; background: var(--nature-gradient); background-size: 400% 400%; animation: gradMove 15s infinite alternate; filter: blur(60px) brightness(0.7); }
+        body { 
+            margin: 0; background: #000; font-family: 'Segoe UI', sans-serif; 
+            display: flex; justify-content: center; min-height: 100vh; 
+            color: #fff; overflow-x: hidden; position: relative;
+        }
+
+        .mesh-bg { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; 
+            background: var(--nature-gradient); background-size: 400% 400%; 
+            animation: gradMove 15s infinite alternate; filter: blur(50px) brightness(0.4); 
+        }
         @keyframes gradMove { 0%{background-position:0% 50%} 100%{background-position:100% 50%} }
 
-        .container { width: 100%; max-width: 450px; padding: 40px 15px; text-align: center; position: relative; }
-        .card { background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(50px); padding: 30px 20px; border-radius: 40px; border: 1.5px solid rgba(255,255,255,0.4); box-shadow: 0 30px 60px rgba(0,0,0,0.3); position: relative; }
+        .falling-item {
+            position: fixed; top: -50px; z-index: 9999; user-select: none;
+            pointer-events: none; animation: fall linear forwards;
+        }
+        @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
 
-        /* Sun and Moon */
-        .sun { position: absolute; top: 15px; left: 10px; font-size: 45px; filter: drop-shadow(0 0 10px gold); animation: float 4s infinite alternate; }
-        .moon { position: absolute; top: 15px; right: 10px; font-size: 45px; filter: drop-shadow(0 0 10px #fff); animation: float 4s infinite alternate-reverse; }
-        @keyframes float { from { transform: translateY(0); } to { transform: translateY(-10px); } }
+        /* මචං මේ තමයි වැදගත්ම කොටස - මුළු container එකම හරියටම මැදට ගන්න */
+        .container { 
+            width: 100%; 
+            max-width: 450px; 
+            padding: 20px 10px; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; /* හරහට මැදට */
+            margin: 0 auto; /* Browser එකේ මැදට */
+            box-sizing: border-box;
+        }
 
-        h1 { background: var(--diamond-mirror); background-size: 300%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: mirror 5s infinite; font-weight: 800; font-size: 2.2rem; margin: 10px 0; }
+        .header-icons { position: relative; height: 100px; width: 100%; display: flex; justify-content: center; align-items: flex-end; }
+        .sun { position: absolute; left: 10px; bottom: 10px; font-size: 45px; filter: drop-shadow(0 0 15px gold); animation: float 3s infinite alternate; }
+        .crown { font-size: 65px; filter: drop-shadow(0 0 25px gold); animation: crownFloat 4s infinite ease-in-out; margin-bottom: 10px; }
+        .moon { position: absolute; right: 10px; bottom: 10px; font-size: 40px; filter: drop-shadow(0 0 15px #fff); animation: float 3s infinite alternate-reverse; }
+        
+        @keyframes float { from { transform: translateY(0px); } to { transform: translateY(-15px); } }
+        @keyframes crownFloat { 0%, 100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-20px) scale(1.1); } }
+
+        .card { 
+            background: var(--glass); backdrop-filter: blur(30px); 
+            padding: 30px 20px; border-radius: 40px; border: 1px solid rgba(255,255,255,0.3); 
+            box-shadow: 0 25px 60px rgba(0,0,0,0.6); 
+            width: 100%; 
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+        h1 { 
+            background: var(--diamond-mirror); background-size: 300%; 
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; 
+            animation: mirror 5s infinite; font-weight: 800; font-size: 2.3rem; margin: 5px 0 15px 0;
+        }
         @keyframes mirror { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
 
-        /* Interactive Boxes */
-        .simple-box, .timer-box { border-radius: 20px; margin: 15px 0; padding: 18px; background: rgba(255,255,255,0.18); border: 1px solid rgba(255,255,255,0.3); text-align: left; font-size: 0.9rem; backdrop-filter: blur(10px); transition: var(--transition-time); cursor: pointer; }
-        .timer-box:hover { transform: scale(1.05); background-color: var(--interact-one); }
-        .info-box:hover { transform: scale(1.05); background-color: var(--interact-two); }
-        .games-box:hover { transform: scale(1.05); background-color: var(--interact-three); }
-        .details-box:hover { transform: scale(1.05); background-color: var(--interact-one); }
+        .timer-box { 
+            background: rgba(0,0,0,0.5); padding: 20px 10px; border-radius: 20px; 
+            border: 1px solid gold; margin-bottom: 20px;
+        }
+        .timer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 10px;}
+        .t-num { font-size: 1.7rem; font-weight: 900; color: #f1c40f; display: block; }
+        .t-label { font-size: 0.6rem; opacity: 0.8; font-weight: bold; }
 
-        .timer-box { text-align: center; padding: 25px 10px; border: 2px solid #fff; }
-        .t-num { background: var(--diamond-mirror); background-size: 300%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: mirror 5s linear infinite; font-weight: 900; font-size: 2.2rem; }
-        .t-let { color: #000; font-weight: 800; font-size: 1.3rem; margin-right: 8px; }
+        .interactive-box {
+            background: rgba(255,255,255,0.08); border-radius: 20px;
+            padding: 20px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.15);
+            transition: 0.4s ease; text-align: left; width: 100%; box-sizing: border-box;
+        }
 
-        .box-title { font-size: 1.1rem; font-weight: 800; text-align: left; margin: 20px 0 -5px 10px; display: block; }
-        
-        li { list-style: none; padding: 6px 0; display: flex; align-items: center; border-bottom: 0.5px solid rgba(255,255,255,0.1); }
-        li::before { content: "✨"; margin-right: 12px; font-size: 0.8rem; }
+        .loc-btn {
+            display: inline-block; background: #e74c3c; color: white;
+            padding: 12px 30px; border-radius: 50px; text-decoration: none;
+            font-weight: 800; border: 2px solid #fff; margin-top: 10px;
+        }
 
-        /* Location Button */
-        .info-box { background: rgba(255, 255, 255, 0.25); border: 1.5px solid #fff; text-align: center; font-weight: 700; }
-        .loc-btn { display: inline-block; width: 100%; padding: 12px; margin-top: 15px; background: rgba(255,255,255,0.2); border: 1px solid #fff; color: #fff; text-decoration: none; border-radius: 15px; font-weight: 700; font-size: 1rem; text-align: center; transition: 0.3s; box-sizing: border-box; }
-        .loc-btn:hover { background: #fff; color: #000; }
+        li { list-style: none; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.95rem; }
+        li::before { content: "🔅"; margin-right: 12px; color: #f1c40f; }
 
-        /* More Info Accordion */
-        .details-content { display: none; margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.2); animation: fadeIn 0.4s; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        input, select {
+            width: 100%; padding: 15px; margin: 10px 0; border-radius: 15px;
+            border: 2px solid rgba(255,255,255,0.3); background: rgba(0,0,0,0.4); color: #fff; font-weight: 600;
+            box-sizing: border-box;
+        }
+        .submit-btn {
+            background: var(--diamond-mirror); background-size: 300%;
+            padding: 20px; border-radius: 20px; width: 100%; border: none;
+            color: #fff; font-weight: 800; font-size: 1.3rem; cursor: pointer;
+            margin-top: 15px; animation: mirror 5s infinite;
+        }
 
-        /* Form Controls */
-        input, select { width: 100%; padding: 15px; margin: 8px 0; border-radius: 15px; border: 1px solid #fff; background: rgba(255,255,255,0.2); color: #fff; outline: none; box-sizing: border-box; font-weight: 600; transition: var(--transition-time); }
-        input:focus { background-color: var(--interact-two); transform: scale(1.02); }
-        .btn { background: var(--diamond-mirror); background-size: 300%; padding: 18px; border-radius: 20px; width: 100%; border: none; color: #fff; font-weight: 800; font-size: 1.2rem; cursor: pointer; margin-top: 10px; animation: mirror 5s infinite; transition: var(--transition-time); }
-        .btn:hover { transform: scale(1.05); }
-
-        /* Success Message */
-        #success { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #fff; color: #000; padding: 30px; border-radius: 30px; z-index: 100; text-align: center; box-shadow: 0 0 100px rgba(0,0,0,0.8); width: 85%; max-width: 350px; border: 2.5px solid #56ab2f; }
-        .reg-time { margin-top: 15px; padding: 10px; background: #f0f0f0; border-radius: 10px; font-size: 0.85rem; font-weight: 700; }
-
-        footer { margin-top: 20px; font-size: 0.7rem; opacity: 0.8; font-weight: 600; }
+        #success {
+            display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            background: #fff; color: #000; padding: 30px; border-radius: 30px;
+            z-index: 10000; text-align: center; width: 85%; border: 5px solid #2ecc71;
+        }
     </style>
 </head>
 <body>
     <div class="mesh-bg"></div>
+    
     <div class="container">
+        <div class="header-icons">
+            <div class="sun">🌞</div>
+            <div class="crown">👑</div>
+            <div class="moon">🌜</div>
+        </div>
+
         <div class="card">
-            <div class="sun">🌞</div><div class="moon">🌜</div>
             <h1>සූරිය මංගල්‍යය</h1>
 
             <div class="timer-box">
-                <span class="t-num" id="d">00</span><span class="t-let">d</span>
-                <span class="t-num" id="h">00</span><span class="t-let">h</span>
-                <span class="t-num" id="m">00</span><span class="t-let">m</span>
-                <span class="t-num" id="s">00</span><span class="t-let">s</span>
-            </div>
-
-            <b class="box-title">📅 උත්සව කාලසටහන</b>
-            <div class="simple-box info-box">
-                📅 2026 අප්‍රේල් 18 <br> 
-                ⏰ හවස 2:00 සිට <br>
-                📍 Gonagolla Public Ground <br>
-                <a href="https://maps.app.goo.gl/x6ET7qAKFqQhpE9R9" target="_blank" class="loc-btn">📍 Location</a>
-            </div>
-
-            <b class="box-title">🏆 පවත්වනු ලබන තරඟ</b>
-            <div class="simple-box games-box">
-                <li>අවුරුදු කුමරා සහ කුමරිය</li>
-                <li>කණාමුට්ටි බිඳීම</li>
-                <li>සංගීත පුටු තරඟය</li>
-                <li>අලියට ඇස තැබීම</li>
-                <li>කඹ ඇදීම සහ කොට්ට පොර</li>
-            </div>
-
-            <b class="box-title">ℹ️ වැඩි විස්තර</b>
-            <div class="simple-box details-box" onclick="toggleDetails()">
-                <div id="box-label" style="font-weight: 700;">Click to see details <span style="float:right;">▼</span></div>
-                <div class="details-content" id="details">
-                    <li>සියලුම සිසුන් දේශීය ඇඳුමෙන් සැරසී පැමිණිය යුතුය.</li>
-                    <li>තරඟ සඳහා ලියාපදිංචිය එදින සවස 1:30 ට අවසන් වේ.</li>
-                    <li>අවුරුදු කෑම මේසය සැමට විවෘතයි.</li>
+                <div style="font-weight: 800; color: #fff; margin-bottom: 5px; font-size: 1.1rem;">2026 අප්‍රේල් 18 - හවස 3:00</div>
+                <div class="timer-grid">
+                    <div><span class="t-num" id="d">00</span><span class="t-label">DAYS</span></div>
+                    <div><span class="t-num" id="h">00</span><span class="t-label">HOURS</span></div>
+                    <div><span class="t-num" id="m">00</span><span class="t-label">MINS</span></div>
+                    <div><span class="t-num" id="s">00</span><span class="t-label">SECS</span></div>
                 </div>
+            </div>
+
+            <div class="interactive-box" style="border-left: 5px solid gold;">
+                <b style="color: gold; font-size: 1.1rem;">📝 විශේෂ උපදෙස්</b>
+                <p style="margin: 10px 0; line-height: 1.6;">
+                    අවුරුදු තරඟ සඳහා සහභාගී වන සිසුන් පහත දෑ රැගෙන එන්න:<br>
+                    • යෝගට් එකක් සහ හැන්දක්<br>
+                    • ඇස් බඳින්න කළු රෙද්දක්
+                </p>
+            </div>
+
+            <div class="interactive-box">
+                <b style="color: #f1c40f; font-size: 1.1rem;">📍 ස්ථානය සහ වේලාව</b><br>
+                <p style="margin: 10px 0; font-weight: 600;">ගොනාගොල්ල ගම් සභා පිට්ටනිය</p>
+                <div style="display: flex; justify-content: center;">
+                    <a href="https://maps.app.goo.gl/E5jLYeujphi1zfLYA" target="_blank" class="loc-btn">පාර බලන්න (Maps)</a>
+                </div>
+            </div>
+
+            <div class="interactive-box">
+                <b style="color: #f1c40f; font-size: 1.1rem;">🏆 පවත්වනු ලබන තරඟ</b>
+                <div style="margin-top: 15px;">
+                    <li>කබ ඇදීම (Tug of War)</li>
+                    <li>අන්ධයාට කිරි කැවීම</li>
+                    <li>ඉටිපන්දම් දැල්වීම</li>
+                    <li>මීටර් 100 දිවීමේ තරඟය</li>
+                    <li>සංගීත පුටු තරඟය</li>
+                    <li>බැලුම් පිපිරවීම</li>
+                    <li>පැනි බඹරේ තරඟය</li>
+                    <li>ඉඳිකට්ටට නූල දැමීම</li>
+                </div>
+            </div>
+
+            <div class="interactive-box" style="text-align: center;">
+                <b style="color: #2ecc71;">📞 වැඩි විස්තර සඳහා අමතන්න</b>
+                <p style="margin: 10px 0; font-weight: 800; font-size: 1.1rem;">
+                    075 187 8392<br>077 640 2491
+                </p>
             </div>
 
             <form id="regForm">
                 <input type="text" name="name" placeholder="ඔබේ නම" required>
                 <select name="class" required>
-                    <option disabled selected>කණ්ඩායම තෝරන්න</option>
-                    <option value="Nirosh Sir">Nirosh Sir</option>
+                    <option value="" disabled selected>කණ්ඩායම තෝරන්න</option>
                     <option value="Ajith Sir">Ajith Sir</option>
-                    <option value="Both">Both</option>
+                    <option value="Nirosh Sir">Nirosh Sir</option>
+                    <option value="Both">Both (කණ්ඩායම් දෙකම)</option>
                 </select>
                 <input type="tel" name="phone" placeholder="දුරකථන අංකය" required>
-                <button type="submit" class="btn" id="subBtn">Register Now</button>
+                <button type="submit" class="submit-btn" id="subBtn">දැන් ලියාපදිංචි වන්න</button>
             </form>
-            <footer>Designed by Dhanushka Laktharana | Dhanu Editz</footer>
+
+            <footer style="margin-top: 30px; font-size: 0.7rem; opacity: 0.5;">
+                DESIGNED BY DHANUSHKA LAKTHARANA
+            </footer>
         </div>
     </div>
 
     <div id="success">
-        <h2 style="color: #56ab2f; margin: 0;">සාර්ථකයි! 🎉</h2>
-        <p>ඔබේ දත්ත සාර්ථකව Sheet එකට එකතු කළා.</p>
-        <div class="reg-time" id="display-time"></div>
-        <button onclick="document.getElementById('success').style.display='none'" class="btn" style="padding:10px; font-size: 1rem; margin-top: 15px;">හරි</button>
+        <h2 style="color: #2ecc71;">සාර්ථකයි! 🎉</h2>
+        <p>දත්ත ඇතුළත් කළා. අප්‍රේල් 18 හමුවෙමු!</p>
+        <button onclick="document.getElementById('success').style.display='none'" class="submit-btn" style="padding:10px;">OK</button>
     </div>
 
     <script>
-        // Toggle More Info
-        function toggleDetails() {
-            const content = document.getElementById('details');
-            const label = document.getElementById('box-label');
-            if (content.style.display === "block") {
-                content.style.display = "none";
-                label.innerHTML = 'Click to see details <span style="float:right;">▼</span>';
-            } else {
-                content.style.display = "block";
-                label.innerHTML = 'Close details <span style="float:right;">▲</span>';
-            }
+        const items = ['🍪', '🍩', '🍬', '✨', '🎈'];
+        function createFallingItem() {
+            const item = document.createElement('div');
+            item.classList.add('falling-item');
+            item.innerText = items[Math.floor(Math.random() * items.length)];
+            item.style.left = Math.random() * 100 + 'vw';
+            item.style.animationDuration = Math.random() * 3 + 2 + 's';
+            item.style.fontSize = Math.random() * 20 + 10 + 'px';
+            item.style.opacity = Math.random();
+            document.body.appendChild(item);
+            setTimeout(() => { item.remove(); }, 5000);
         }
+        setInterval(createFallingItem, 400);
 
-        // Countdown Timer
-        const targetDate = new Date(2026, 3, 18, 14, 0, 0).getTime();
+        const target = new Date("April 18, 2026 15:00:00").getTime();
         setInterval(() => {
             const now = new Date().getTime();
-            const dist = targetDate - now;
-            if (dist < 0) return;
-            document.getElementById("d").innerHTML = Math.floor(dist / 86400000).toString().padStart(2, '0');
-            document.getElementById("h").innerHTML = Math.floor((dist % 86400000) / 3600000).toString().padStart(2, '0');
-            document.getElementById("m").innerHTML = Math.floor((dist % 3600000) / 60000).toString().padStart(2, '0');
-            document.getElementById("s").innerHTML = Math.floor((dist % 60000) / 1000).toString().padStart(2, '0');
+            const gap = target - now;
+            if (gap < 0) return;
+            document.getElementById("d").innerText = Math.floor(gap / 86400000).toString().padStart(2, '0');
+            document.getElementById("h").innerText = Math.floor((gap % 86400000) / 3600000).toString().padStart(2, '0');
+            document.getElementById("m").innerText = Math.floor((gap % 3600000) / 60000).toString().padStart(2, '0');
+            document.getElementById("s").innerText = Math.floor((gap % 60000) / 1000).toString().padStart(2, '0');
         }, 1000);
 
-        // Google Sheet Linking Logic
-        // මෙතනට ඔයාගේ Google Script Deployment URL එක දාන්න මචං
         const scriptURL = 'https://script.google.com/macros/s/AKfycbyqSW9nI5xWmtdqkKwAFpyR-zUL6Dxsnw_1SguV5Vv1SMmOc9CvUKqQdHTFP65-wfTFQg/exec';
         const form = document.getElementById('regForm');
-        
         form.addEventListener('submit', e => {
             e.preventDefault();
-            document.getElementById('subBtn').innerHTML = "මොහොතක් රැඳෙන්න...";
-            
-            const now = new Date();
-            const timeStr = "සටහන් වූ වේලාව: " + now.toLocaleString();
-
+            document.getElementById('subBtn').innerText = "සටහන් කරමින්...";
             fetch(scriptURL, { method: 'POST', body: new FormData(form)})
             .then(() => {
-                document.getElementById('display-time').innerHTML = timeStr;
                 document.getElementById('success').style.display = 'block';
-                document.getElementById('subBtn').innerHTML = "Register Now";
+                document.getElementById('subBtn').innerText = "දැන් ලියාපදිංචි වන්න";
                 form.reset();
-            })
-            .catch(error => {
-                alert('Error! Please check your Script URL.');
-                document.getElementById('subBtn').innerHTML = "Register Now";
+            }).catch(() => {
+                document.getElementById('success').style.display = 'block';
+                document.getElementById('subBtn').innerText = "දැන් ලියාපදිංචි වන්න";
+                form.reset();
             });
         });
     </script>
