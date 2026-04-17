@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Grade 11 Aurudu 2026 - Final Fix</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
         :root {
             --nature-gradient: linear-gradient(135deg, #1e3c72, #2a5298, #2ecc71, #f1c40f);
@@ -30,15 +31,14 @@
         }
         @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
 
-        /* මචං මේ තමයි වැදගත්ම කොටස - මුළු container එකම හරියටම මැදට ගන්න */
         .container { 
             width: 100%; 
             max-width: 450px; 
             padding: 20px 10px; 
             display: flex; 
             flex-direction: column; 
-            align-items: center; /* හරහට මැදට */
-            margin: 0 auto; /* Browser එකේ මැදට */
+            align-items: center; 
+            margin: 0 auto; 
             box-sizing: border-box;
         }
 
@@ -141,7 +141,7 @@
             </div>
 
             <div class="interactive-box">
-                <b style="color: #f1c40f; font-size: 1.1rem;">📍 ස්ථානය සහ වේලාව</b><br>
+                <b style="color: #f1c40f; font-size: 1.1rem;">📍 ස්ථානය </b><br>
                 <p style="margin: 10px 0; font-weight: 600;">ගොනාගොල්ල ගම් සභා පිට්ටනිය</p>
                 <div style="display: flex; justify-content: center;">
                     <a href="https://maps.app.goo.gl/E5jLYeujphi1zfLYA" target="_blank" class="loc-btn">පාර බලන්න (Maps)</a>
@@ -194,6 +194,7 @@
     </div>
 
     <script>
+        // Falling Animation
         const items = ['🍪', '🍩', '🍬', '✨', '🎈'];
         function createFallingItem() {
             const item = document.createElement('div');
@@ -208,6 +209,7 @@
         }
         setInterval(createFallingItem, 400);
 
+        // Countdown
         const target = new Date("April 18, 2026 15:00:00").getTime();
         setInterval(() => {
             const now = new Date().getTime();
@@ -219,6 +221,26 @@
             document.getElementById("s").innerText = Math.floor((gap % 60000) / 1000).toString().padStart(2, '0');
         }, 1000);
 
+        // Fireworks/Confetti Function
+        function fireFestivities() {
+            var duration = 5 * 1000;
+            var animationEnd = Date.now() + duration;
+            var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 10001 };
+
+            function randomInRange(min, max) {
+                return Math.random() * (max - min) + min;
+            }
+
+            var interval = setInterval(function() {
+                var timeLeft = animationEnd - Date.now();
+                if (timeLeft <= 0) { return clearInterval(interval); }
+                var particleCount = 50 * (timeLeft / duration);
+                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
+                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
+            }, 250);
+        }
+
+        // Form Submit
         const scriptURL = 'https://script.google.com/macros/s/AKfycbyqSW9nI5xWmtdqkKwAFpyR-zUL6Dxsnw_1SguV5Vv1SMmOc9CvUKqQdHTFP65-wfTFQg/exec';
         const form = document.getElementById('regForm');
         form.addEventListener('submit', e => {
@@ -228,10 +250,12 @@
             .then(() => {
                 document.getElementById('success').style.display = 'block';
                 document.getElementById('subBtn').innerText = "දැන් ලියාපදිංචි වන්න";
+                fireFestivities(); // Fireworks පත්තු කරනවා
                 form.reset();
             }).catch(() => {
                 document.getElementById('success').style.display = 'block';
                 document.getElementById('subBtn').innerText = "දැන් ලියාපදිංචි වන්න";
+                fireFestivities();
                 form.reset();
             });
         });
